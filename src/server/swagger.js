@@ -3,6 +3,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import { version, name } from '../../package.json';
 
 const swaggerDefinition = {
+  openapi: '3.0.1',
   info: {
     title: `REST API for ${name}`, // Title of the documentation
     version, // Version of the app
