@@ -5,6 +5,10 @@ export default
   nodeEnv: process.env.NODE_ENV,
   host: 'localhost',
   bodyLimit: '100kb',
+  authenticationDetails: {
+    secret: process.env.JWT_TOKEN,
+    tolerance: process.env.TOLERANCE,
+  },
   postgres: {
     username: process.env.PG_USERNAME,
     password: process.env.PG_PASSWORD,

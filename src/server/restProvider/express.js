@@ -1,7 +1,7 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { version, name } from '../../../package.json';
-import { errorHandler } from '../middlewares';
+import { errorHandler, authenticator } from '../middlewares';
 import swaggerSpec from '../swagger';
 import imagesV1 from '../../app/images.v1';
 
@@ -20,9 +20,10 @@ export default function create() {
 
     app.get('/healthcheck', (req, res) => res.send(healthcheckInfo));
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use(['/v1/images'], authenticator);
 
     // register new route
-    app.use('/v1', imagesV1);
+    app.use('/v1/images', imagesV1);
     app.use(errorHandler.generalException);
     app.use(errorHandler.notRegisteredRoute);
   } catch (error) {
