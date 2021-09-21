@@ -1,0 +1,34 @@
+paths:
+  /v1/images:
+    post:
+      description: 
+      tags:
+        - Addition
+      parameters:
+      requestBody:
+        content:
+          application/json:
+      responses:
+        "201":
+          description: 
+          content:
+            application/json; charset=utf-8:
+              schema:
+              examples:
+                "Valid response body":
+        "200":
+          description: 
+          content:
+            application/json; charset=utf-8:
+              schema:
+              examples:
+                "Valid response body":
+        "400":
+          description: Bad request error messages.
+          content:
+            application/json; charset=utf-8:
+              schema:
+              examples:
+components:
+  schemas:
+    
