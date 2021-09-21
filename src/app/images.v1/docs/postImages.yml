@@ -29,6 +29,8 @@ paths:
             application/json; charset=utf-8:
               schema:
               examples:
+        "401": 
+          $ref: '#/components/responses/UnauthorizedError'
 components:
   schemas:
     

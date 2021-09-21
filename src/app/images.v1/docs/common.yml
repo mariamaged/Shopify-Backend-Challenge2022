@@ -1,0 +1,27 @@
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid (expired).
+      content:
+        application/json; charset=utf-8:
+          schema:
+          examples:
+            "Unauthorized": 
+              value:
+                {
+                  "errors":
+                    [
+                      {
+                        "code": 401,
+                        type: "Authorization Error",
+                        "message": "Token is invalid. It might have expired.",
+                      },
+                    ],
+                }
+security:
+  - bearerAuth: []

@@ -10,9 +10,9 @@ export default function (req, res, next) {
   const errors = validationResult(req).formatWith(errorFormatter);
   if (!errors.isEmpty()) {
     const error = {
-      message: config.errors.validation.message,
-      type: config.errors.validation.type,
-      code: config.errors.validation.code,
+      message: config.errors.VALIDATION.message,
+      type: config.errors.VALIDATION.type,
+      code: config.errors.VALIDATION.code,
       params: errors.array({ onlyFirstError: true }),
     };
     return res.status(HttpStatus.BAD_REQUEST).json({ errors: [error] });

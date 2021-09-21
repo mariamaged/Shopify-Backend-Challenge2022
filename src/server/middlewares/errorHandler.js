@@ -8,9 +8,9 @@ const generalException = (err, req, res, next) => {
     return;
   }
   const errors = [{
-    type: err.name || config.errors.generic.type,
-    code: config.errors.generic.code,
-    message: err.message || config.errors.generic.message,
+    type: err.name || config.errors.GENERIC.type,
+    code: config.errors.GENERIC.code,
+    message: err.message || config.errors.GENERIC.message,
   }];
   res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR).json({ errors });
 };
@@ -18,9 +18,9 @@ const generalException = (err, req, res, next) => {
 // Not found Error
 const notRegisteredRoute = (req, res, next) => {
   const errors = [{
-    type: config.errors.route.type,
-    code: config.errors.route.code,
-    message: config.errors.route.message,
+    type: config.errors.ROUTE.type,
+    code: config.errors.ROUTE.code,
+    message: config.errors.ROUTE.message,
   }];
   res.status(HttpStatus.NOT_FOUND).json({ errors });
 };
