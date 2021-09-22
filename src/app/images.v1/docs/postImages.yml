@@ -1,0 +1,42 @@
+paths:
+  /v1/images:
+    post:
+      description:
+      tags:
+        - Addition
+      parameters:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: string
+                  format: binary
+                description:
+                  type: string
+                keywords:
+                  type: array
+                  items:
+                    type: string
+                isPublic:
+                  type: boolean
+                  enum: [true, false]
+                  example: true
+      responses:
+        "201":
+          description:
+          content:
+            application/json; charset=utf-8:
+              schema:
+        "400":
+          description: Bad request error messages.
+          content:
+            application/json; charset=utf-8:
+              schema:
+              examples:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+components:
+  schemas:

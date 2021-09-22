@@ -49,6 +49,8 @@
             "error"
         ],
         "no-console": "off",
-        "func-names": ["error", "never"]
+        "func-names": ["error", "never"],
+        "no-useless-catch": "off",
+        "import/prefer-default-export": "off" 
     }
 }
