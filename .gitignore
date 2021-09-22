@@ -113,7 +113,7 @@ app/consumer/consumer.properties
 .compiled/
 .vscode
 .vscode/settings.json
-.env*
+.env
 
 /src/utils/kms/encrypt.js
 /src/utils/kms/env.decrypted

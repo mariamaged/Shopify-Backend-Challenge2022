@@ -1,3 +1,5 @@
+import '../utils/importantEnv';
+
 import HttpStatus from 'http-status-codes';
 import config from '../configs';
 

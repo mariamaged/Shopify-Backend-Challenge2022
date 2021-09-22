@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
-import * as admin from 'firebase-admin';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
 
 const {
   authenticationDetails: {
@@ -9,18 +10,17 @@ const {
   errors: { UNAUTHORIZED },
 } = config;
 
-admin.initializeApp({
-  credential: admin.credential.cert({
-    projectId: config.firebase.projectId,
-    clientEmail: config.firebase.clientEmail,
-    privateKey: config.firebase.privateKey,
-    apiKey: config.firebase.apiKey,
-  }),
+const app = initializeApp({
+  projectId: config.firebase.projectId,
+  apiKey: config.firebase.apiKey,
+  authDomain: config.firebase.authDomain,
+  appId: config.firebase.appId,
 });
 
 const authenticate = async (req, res, next) => {
   try {
     const { headers: { authentication } } = req;
+    console.log(headers);
     const response = jwt.verify(authentication, secret, { clockTolerance: tolerance });
     req.userId = response.sub;
     return next();
@@ -31,15 +31,19 @@ const authenticate = async (req, res, next) => {
 
 const getToken = async (req, res) => {
   try {
-    const { email, password } = config.defaultCredentials;
-    const authCredential = await admin.auth().signInWithEmailAndPassword(email, password);
-    const { userId } = authCredential.user;
-    console.log(`User is: ${userId}`);
-    const token = jwt.sign(userId, process.env.TOKEN_SECRET, { expiresIn: '3600s' });
+    const {
+      body: {
+        email = config.defaultCredentials.email,
+        password = config.defaultCredentials.password
+      }
+    } = req;
+    const authCredential = await signInWithEmailAndPassword(getAuth(app), email, password);
+    const { uid } = authCredential.user;
+    const token = jwt.sign(uid, secret);
     return res.status(HttpStatus.OK).send({ token });
   }
   catch (error) {
-    throw error;
+    return next(error);
   }
 };
 

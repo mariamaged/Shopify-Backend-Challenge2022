@@ -9,6 +9,6 @@ export default async function (req, res) {
     const result = await imagesService.postImages(images);
     return res.status(HttpStatus.CREATED).send(result);
   } catch (error) {
-    throw error;
+    return next(error);
   }
 }
