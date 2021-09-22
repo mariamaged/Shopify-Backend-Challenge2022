@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
+import { body } from 'express-validator';
 
 const {
   authenticationDetails: {
@@ -47,7 +48,15 @@ const getToken = async (req, res) => {
   }
 };
 
+const credentialsValiation = [
+  body('email').if(body('password').exists())
+    .exists({ checkNull: true }).withMessage('Email missing even though password exists'),
+  body('password').if(body('email').exists())
+    .exists({ checkNull: true }).withMessage('Password missing even though email exists.')
+];
+
 export default {
   authenticate,
-  getToken
+  getToken,
+  credentialsValiation,
 };

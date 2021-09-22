@@ -21,7 +21,7 @@ export default function create() {
     app.use(helmet());
 
     app.get('/healthcheck', (req, res) => res.send(healthcheckInfo));    
-    app.get('/token', authenticator.getToken);
+    app.get('/token', authenticator.credentialsValiation, authenticator.getToken);
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     app.use(['/v1/images'], authenticator.authenticate);
 

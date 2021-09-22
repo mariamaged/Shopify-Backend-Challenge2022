@@ -1,7 +1,7 @@
 paths:
   /token:
     get:
-      description: Get token for a default user already in firebase, or enter your own user by specifying email and password.
+      description: Get token for a default user already in firebase by not providing both email and password in request body, or enter your own user by specifying email and password.
       tags:
         - Authentication
       requestBody:
