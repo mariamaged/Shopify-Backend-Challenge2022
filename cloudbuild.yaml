@@ -16,7 +16,6 @@ steps:
     args: 
       - 'build'
       - '--build-arg'
-      - '-t'
       - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
       - '-t'
       - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
