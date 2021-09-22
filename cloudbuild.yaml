@@ -19,6 +19,8 @@ steps:
       - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
       - '-t'
       - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
+      - 't'
+      - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
       - '.'
 
   # Push the image to Container Registry
@@ -34,7 +36,7 @@ steps:
       - 'deploy'
       - '$_IMAGE'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
+      - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
       - '--concurrency'
       - '$_CONCURRENCY'
       - '--max-instances'
