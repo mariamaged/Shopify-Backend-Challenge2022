@@ -18,4 +18,14 @@ export default
     schema: process.env.PG_SCHEMA || 'main',
     logging: false,
   },
+  firebase: {
+    apiKey: process.env.FIREBASE_WEB_API_KEY,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+  },
+  defaultCredentials: {
+    email: process.env.EMAIL,
+    password: process.env.PASSWORD,
+  }
 };
