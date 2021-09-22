@@ -1,0 +1,5 @@
+openapi: 3.0.1
+info:
+  title: Image Repository
+  version: 1.0.0 
+  description: API for Shopify Backend Challenge Winter 2022.

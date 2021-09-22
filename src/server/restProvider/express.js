@@ -18,9 +18,10 @@ export default function create() {
     console.debug('app::initExpress', 'express app init middleware');
     app.use(express.json());
 
-    app.get('/healthcheck', (req, res) => res.send(healthcheckInfo));
+    app.get('/healthcheck', (req, res) => res.send(healthcheckInfo));    
+    app.get('/token', authenticator.getToken);
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-    app.use(['/v1/images'], authenticator);
+    app.use(['/v1/images'], authenticator.authenticate);
 
     // register new route
     app.use('/v1/images', imagesV1);

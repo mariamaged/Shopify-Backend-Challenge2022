@@ -1,0 +1,8 @@
+const path = require('path');
+require('dotenv').config();
+require("@babel/register");
+
+module.exports = {
+  'models-path': path.resolve('src/dataAccess', 'models'),
+  'config': path.resolve('.sequelizerc.conf.js'),
+};
