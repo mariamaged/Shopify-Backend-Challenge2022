@@ -19,7 +19,6 @@ steps:
       - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
       - '-t'
       - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
-      - 't'
       - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
       - '.'
 
