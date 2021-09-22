@@ -16,6 +16,7 @@ steps:
     args: 
       - 'build'
       - '--build-arg'
+      - '-t'
       - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
       - '-t'
       - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
@@ -45,7 +46,8 @@ steps:
       - 'managed'
 
 images:
-  - 'gcr.io/$PROJECT_ID/$_IMAGE'
+  - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
 
 substitutions:
   _CONCURRENCY: '45'
