@@ -25,6 +25,7 @@ export default function create() {
     // app.use(['/v1/images'], authenticator);
 
     // register new route
+    app.get('/token', getToken);
     app.use('/v1/images', imagesV1);
     app.use(errorHandler.generalException);
     app.use(errorHandler.notRegisteredRoute);
