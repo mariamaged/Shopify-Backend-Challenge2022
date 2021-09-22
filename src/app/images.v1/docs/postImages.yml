@@ -1,19 +1,23 @@
 paths:
   /v1/images:
     post:
-      description:
+      description: Add one or more images. Attach to them an optional description and keywords that will apply to all of them. The isPublic boolean field is required to determine permission for these images.
       tags:
         - Addition
-      parameters:
       requestBody:
         content:
           multipart/form-data:
             schema:
               type: object
+              required:
+                - files
+                - isPublic
               properties:
                 files:
-                  type: string
-                  format: binary
+                  type: array
+                  items:
+                    type: string
+                    format: binary
                 description:
                   type: string
                 keywords:
@@ -38,5 +42,3 @@ paths:
               examples:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
-components:
-  schemas:

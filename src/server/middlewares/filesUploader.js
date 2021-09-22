@@ -38,11 +38,16 @@ var uploadFilesPrivate = multer({
 
 const uploadFiles = (req, res, next) => {
     const { body: { isPublic } } = req;
-    if (isPublic) {
-        return uploadFilesPublic(req, res, next);
+    if (config.nodeEnv === 'development') {
+        if (isPublic) {
+            return uploadFilesPublic(req, res, next);
+        }
+        else {
+            return uploadFilesPrivate(req, res, next);
+        }
     }
     else {
-        return uploadFilesPrivate(req, res, next);
+        return next();
     }
 }
 export default uploadFiles;

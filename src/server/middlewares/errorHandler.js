@@ -12,7 +12,8 @@ const generalException = (err, req, res, next) => {
     code: config.errors.GENERIC.code,
     message: err.message || config.errors.GENERIC.message,
   }];
-  res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR).json({ errors });
+  console.log('here');
+  return res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR).json({ errors });
 };
 
 // Not found Error

@@ -1,0 +1,22 @@
+paths:
+  /token:
+    get:
+      description: Get token for a default user already in firebase, or enter your own user by specifying email and password.
+      tags:
+        - Authentication
+      requestBody:
+      responses:
+        "200":
+          description: Valid response
+          content:
+            application/json; charset=utf-8:
+              schema: 
+                type: object
+                properties: 
+                  token:
+                    type: string
+              examples:
+                "Some Token": 
+                  value: {
+                    "token": ""
+                  }
