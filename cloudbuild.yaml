@@ -19,14 +19,13 @@ steps:
       - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
       - '-t'
       - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
-      - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
       - '.'
 
   # Push the image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: 
     - 'push'
-    - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
+    - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
 
   # Deploy image to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -35,11 +34,15 @@ steps:
       - 'deploy'
       - '$_IMAGE'
       - '--image'
-      - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
+      - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
+      - '--add-cloudsql-instances'
+      - '${_INSTANCE_CONNECTION_NAME}'
+      - '--set-env-vars'
+      - 'INSTANCE_CONNECTION_NAME=${_INSTANCE_CONNECTION_NAME}'  
       - '--concurrency'
       - '$_CONCURRENCY'
       - '--max-instances'
-      - '$_MAX_INSTANCES'
+      - '$_MAX_INSTANCES'  
       - '--region'
       - '$_REGION'
       - '--platform'
