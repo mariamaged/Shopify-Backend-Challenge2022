@@ -1,4 +1,5 @@
 import express from 'express';
+import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import { version, name } from '../../../package.json';
 import { errorHandler, authenticator } from '../middlewares';
@@ -17,6 +18,7 @@ export default function create() {
     app.set('showStackError', true);
     console.debug('app::initExpress', 'express app init middleware');
     app.use(express.json());
+    app.use(helmet());
 
     app.get('/healthcheck', (req, res) => res.send(healthcheckInfo));    
     app.get('/token', authenticator.getToken);

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import './server/globals';
 import config from './configs';
 import createApp from './server';
