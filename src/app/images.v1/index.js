@@ -1,11 +1,12 @@
 import { AsyncRouter } from 'express-async-router';
-import { uploadFiles } from '../../server/middlewares';
+import { filesUploader, requestValidator } from '../../server/middlewares';
 import { postImagesValidation } from './validation';
 import postImages from './postImages';
-
 const router = new AsyncRouter();
 
-router.post('/', postImagesValidation, uploadFiles, postImages);
+router.post('/',
+    filesUploader.uploadFiles, filesUploader.renamePrivateImages,
+    postImagesValidation, requestValidator, postImages);
 // router.delete('/:imageId');
 // router.delete('/');
 // router.get('/', );

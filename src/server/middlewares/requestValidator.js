@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+import filesUploader  from './filesUploader';
 
 const errorFormatter = ({
   location, msg, param, value,
@@ -9,6 +10,7 @@ const errorFormatter = ({
 export default function (req, res, next) {
   const errors = validationResult(req).formatWith(errorFormatter);
   if (!errors.isEmpty()) {
+    filesUploader.deleteImages(req);
     const error = {
       message: config.errors.VALIDATION.message,
       type: config.errors.VALIDATION.type,

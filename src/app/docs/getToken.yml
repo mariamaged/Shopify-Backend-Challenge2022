@@ -41,7 +41,7 @@ paths:
               examples:
                 "Some Token": 
                   value: {
-                    "token": "eyJhbGciOiJIUzI1NiJ9.YWxCS05QcWhHSGJnV0U4Zkd4Y05jejhYTVlJMw.q5fpDvwWaOy6n0dvu2jWTDfv6UOpKm-HOgSbH0Fsmar"
+                    "token": "eyJhbGciOiJIUzI1NiJ9.YWxCS05QcWhHSGJnV0U4Zkd4Y05jejhYTVlJMw.q5fpDvwWaOy6n0dvu2jWTDfv6UOpKm-HOgSbH0FsqWw"
                   }
         "400":
           description: Bad Request Validation Errors.

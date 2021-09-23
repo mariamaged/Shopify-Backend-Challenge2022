@@ -24,6 +24,12 @@ export default {
       status: 401,
       type: 'Authorization Error',
     },
+    UNAUTHORIZED_TOKEN_NOT_FOUND: {
+      message: 'Please pass a token in bearer authorization headers in order to authenticate this request.',
+      code: 402,
+      status: 401,
+      type: 'Authorization Error'
+    },
     USER_OPERATION_ACCESS_DENIED: {
       message: 'User with id {userId} is not allowed to {operation} image with id {imageId}.',
       code: 403,
