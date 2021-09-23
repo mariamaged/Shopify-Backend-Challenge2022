@@ -49,7 +49,6 @@ steps:
       - 'managed'
 
 images:
-  - 'gcr.io/$PROJECT_ID/$_IMAGE:$COMMIT_SHA'
   - 'gcr.io/$PROJECT_ID/$_IMAGE:latest'
 
 substitutions:
