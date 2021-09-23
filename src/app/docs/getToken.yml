@@ -1,10 +1,21 @@
 paths:
   /token:
     get:
-      description: Get token for a default user already in firebase by not providing both email and password in request body, or enter your own user by specifying email and password.
+      description: Get token for a default user already in firebase by not providing both email and password in request body (delete from body object in swagger),
+       or enter your own user by specifying both of them.
       tags:
         - Authentication
       requestBody:
+        schema:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  description: Unique email.
+                password:
+                  description: Must be correct password if not new user.
       responses:
         "200":
           description: Valid response
@@ -18,5 +29,5 @@ paths:
               examples:
                 "Some Token": 
                   value: {
-                    "token": ""
+                    "token": "eyJhbGciOiJIUzI1NiJ9.YWxCS05QcWhHSGJnV0U4Zkd4Y05jejhYTVlJMw.q5fpDvwWaOy6n0dvu2jWTDfv6UOpKm-HOgSbH0Fsmar"
                   }
