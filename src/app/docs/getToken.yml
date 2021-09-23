@@ -3,7 +3,7 @@ paths:
     post:
       description: Get token for a default user already in firebase by not providing both email and password in request body (delete from body object in swagger so that it is an empty object),
        or create your own user by specifying both of them. After you create one, recalling the route would sign in the user so the password provided should be valid/match the password used when the user was created.
-       The server utilizes https because it is deployed on Cloud RUN to ensure security for routes like this one. Firebase handles rate limiting issues like frequest consective calls to the same account.
+       The server utilizes https because it is deployed on Cloud RUN to ensure security for routes like this one. Firebase handles rate limiting issues like frequest consecutive calls to the same account.
        Also, authentication is implemented using JWT (JSON Web Token).
       tags:
         - Authentication
