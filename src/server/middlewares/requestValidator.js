@@ -10,7 +10,7 @@ const errorFormatter = ({
 export default function (req, res, next) {
   const errors = validationResult(req).formatWith(errorFormatter);
   if (!errors.isEmpty()) {
-    filesUploader.deleteImages(req);
+ //   filesUploader.deleteImages(req);
     const error = {
       message: config.errors.VALIDATION.message,
       type: config.errors.VALIDATION.type,

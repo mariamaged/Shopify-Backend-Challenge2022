@@ -32,7 +32,7 @@ export default
   gcs: {
     projectId: process.env.GCS_PROJECT_ID,
     bucket: process.env.GCS_BUCKET,
-    keyFileName: path.join(`${__dirname}/../../service.json`),
+    keyFilename: path.join(`./service.json`),
     maxRetries: 4,
   }
 };

@@ -4,14 +4,13 @@ import { filesUploader } from '../../server/middlewares';
 export default async function (req, res, next) {
   try {
     const { userId, files, body: { description, keywords, isPublic } } = req;
-
     const images = files.map((file) => new ImageModel(
       { ...file, description, keywords, isPublic, userId }
     ));
     const result = await imagesService.postImages(images);
     return res.status(HttpStatus.CREATED).send(result);
   } catch (error) {
-    filesUploader.deleteImages(req);
+  //  filesUploader.deleteImages(req);
     throw error;
   }
 }

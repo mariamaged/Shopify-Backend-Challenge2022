@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import { version, name } from '../../../package.json';
 import { errorHandler, authenticator, requestValidator } from '../middlewares';
 import swaggerSpec from '../swagger';
+import cors from 'cors';
 import imagesV1 from '../../app/images.v1';
 
 const healthcheckInfo = {
@@ -11,12 +12,17 @@ const healthcheckInfo = {
   version,
 };
 
+const corsOptions = {
+  origin: "http://localhost:8081",
+}
+
 export default function create() {
   const app = express();
   try {
     console.debug('app::initExpress', 'express app init');
     app.set('showStackError', true);
     console.debug('app::initExpress', 'express app init middleware');
+    app.use(cors(corsOptions));
     app.use(express.json());
     app.use(helmet());
 

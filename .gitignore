@@ -117,6 +117,7 @@ app/consumer/consumer.properties
 /server.key
 /server.cert
 /*/upload/*.png
+serviceAccount.json
 /src/utils/kms/encrypt.js
 /src/utils/kms/env.decrypted
 package-lock.json
