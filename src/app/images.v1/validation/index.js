@@ -1,19 +1,26 @@
 import { body } from 'express-validator';
+const { INVALID_STRING, EMPTY_ARRAY, INVALID_BOOLEAN_STRING, REQUIRED } = config;
 const postImagesValidation = [
     body('description')
         .isString()
+        .withMessage(INVALID_STRING)
         .optional(),
     body('keywords')
         .if(body('keywords').isArray())
         .isLength({ min: 1 })
+        .withMessage(EMPTY_ARRAY)
         .if(body('keywords').not().isArray())
         .isString()
+        .withMessage(INVALID_STRING)
         .customSanitizer((str) => str.split(','))
         .optional(),
     body('isPublic')
         .isString()
+        .withMessage(INVALID_STRING)
         .isIn(['true', 'false'])
-        .exists({ checkNull: true }),
+        .withMessage(INVALID_BOOLEAN_STRING)
+        .exists({ checkNull: true })
+        .withMessage(REQUIRED),
 ]
 
 export { postImagesValidation };
