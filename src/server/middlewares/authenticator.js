@@ -58,7 +58,7 @@ const getToken = async (req, res, next) => {
 
 const credentialsValidation = [
   body('email').if(body('password').exists())
-    .exists({ checkNull: true }).withMessage('Email missing even though password exists').isBoolean(),
+    .exists({ checkNull: true }).withMessage('Email missing even though password exists'),
   body('password').if(body('email').exists())
     .exists({ checkNull: true }).withMessage('Password missing even though email exists.')
 ];
