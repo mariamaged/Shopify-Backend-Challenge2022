@@ -8,11 +8,10 @@ const generalException = (err, req, res, next) => {
     return;
   }
   const errors = [{
-    type: err.name || config.errors.GENERIC.type,
-    code: config.errors.GENERIC.code,
+    type: err.type || config.errors.GENERIC.type,
+    code: err.code || config.errors.GENERIC.code,
     message: err.message || config.errors.GENERIC.message,
   }];
-  console.log('here');
   return res.status(err.status || HttpStatus.INTERNAL_SERVER_ERROR).json({ errors });
 };
 

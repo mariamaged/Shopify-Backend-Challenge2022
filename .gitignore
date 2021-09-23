@@ -114,6 +114,8 @@ app/consumer/consumer.properties
 .vscode
 .vscode/settings.json
 .env
+/server.key
+/server.cert
 
 /src/utils/kms/encrypt.js
 /src/utils/kms/env.decrypted

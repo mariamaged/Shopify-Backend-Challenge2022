@@ -1,14 +1,16 @@
 paths:
   /token:
-    get:
-      description: Get token for a default user already in firebase by not providing both email and password in request body (delete from body object in swagger),
-       or enter your own user by specifying both of them.
+    post:
+      description: Get token for a default user already in firebase by not providing both email and password in request body (delete from body object in swagger so that it is an empty object),
+       or create your own user by specifying both of them. After you create one, recalling the route would sign in the user so the password provided should be valid/match the password used when the user was created.
+       The server utilizes https to ensure security for routes like this one. Firebase handles rate limiting issues like frequest consective calls to the same account.
+       Also, authentication is implemented using JWT (JSON Web Token).
       tags:
         - Authentication
       requestBody:
         schema:
         content:
-          application/json:
+          application/json; charset=utf-8:
             schema:
               type: object
               properties:
@@ -16,6 +18,16 @@ paths:
                   description: Unique email.
                 password:
                   description: Must be correct password if not new user.
+            examples:
+              "Sign in with default user in firebase":
+                value: {
+
+                }
+              "Create a new user": 
+                value: {
+                  "email": "some.email@gmail.com",
+                  "password": "somepassword"
+                }
       responses:
         "200":
           description: Valid response
@@ -31,3 +43,65 @@ paths:
                   value: {
                     "token": "eyJhbGciOiJIUzI1NiJ9.YWxCS05QcWhHSGJnV0U4Zkd4Y05jejhYTVlJMw.q5fpDvwWaOy6n0dvu2jWTDfv6UOpKm-HOgSbH0Fsmar"
                   }
+        "400":
+          description: Bad Request Validation Errors.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+              examples:
+                "Only one attribute is provided (email)":
+                  value: {
+                    "errors": [
+                      {
+                        "message": "Invalid params",
+                        "type": "Validation Error",
+                        "code": 102,
+                        "params": [
+                          {
+                            "message": "Password missing even though email exists.",
+                            "param_name": "password",
+                            "param_value": null,
+                            "location": "body"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                "Only one attribute is provided (password)": 
+                  value: {
+                    "errors": [
+                      {
+                        "message": "Invalid params",
+                        "type": "Validation Error",
+                        "code": 102,
+                        "params": [
+                          {
+                            "message": "Email missing even though password exists.",
+                            "param_name": "email",
+                            "param_value": null,
+                            "location": "body"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+        "403":
+          description: User signing in with invalid password and therefore not authorized to get token.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+              examples:
+                "Invalid password":
+                  value: {
+                    "errors": [
+                      {
+                        "type": "Authorization Error",
+                        "code": 105,
+                        "message": "Please sign in with correct password."
+                      }
+                    ]
+                  }
+
+                  

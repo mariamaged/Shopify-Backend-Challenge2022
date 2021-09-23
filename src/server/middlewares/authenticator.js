@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from 'firebase/app';
 import { body } from 'express-validator';
 
@@ -8,7 +8,7 @@ const {
     secret,
     tolerance,
   },
-  errors: { UNAUTHORIZED },
+  errors: { UNAUTHORIZED, INVALID_PASSWORD },
 } = config;
 
 const app = initializeApp({
@@ -21,7 +21,6 @@ const app = initializeApp({
 const authenticate = async (req, res, next) => {
   try {
     const { headers: { authentication } } = req;
-    console.log(headers);
     const response = jwt.verify(authentication, secret, { clockTolerance: tolerance });
     req.userId = response.sub;
     return next();
@@ -30,27 +29,36 @@ const authenticate = async (req, res, next) => {
   }
 };
 
-const getToken = async (req, res) => {
+const getToken = async (req, res, next) => {
+  const {
+    body: {
+      email = config.defaultCredentials.email,
+      password = config.defaultCredentials.password
+    }
+  } = req;
   try {
-    const {
-      body: {
-        email = config.defaultCredentials.email,
-        password = config.defaultCredentials.password
-      }
-    } = req;
     const authCredential = await signInWithEmailAndPassword(getAuth(app), email, password);
     const { uid } = authCredential.user;
     const token = jwt.sign(uid, secret);
     return res.status(HttpStatus.OK).send({ token });
   }
   catch (error) {
+    if(error.code === 'auth/user-not-found') {
+      const authCredential = await createUserWithEmailAndPassword(getAuth(app), email, password);
+      const { uid } = authCredential.user;
+      const token = jwt.sign(uid, secret);
+      return res.status(HttpStatus.OK).send({ token });
+    }
+    else if(error.code === 'auth/wrong-password') {
+      return next(INVALID_PASSWORD);
+    }
     return next(error);
   }
 };
 
-const credentialsValiation = [
+const credentialsValidation = [
   body('email').if(body('password').exists())
-    .exists({ checkNull: true }).withMessage('Email missing even though password exists'),
+    .exists({ checkNull: true }).withMessage('Email missing even though password exists').isBoolean(),
   body('password').if(body('email').exists())
     .exists({ checkNull: true }).withMessage('Password missing even though email exists.')
 ];
@@ -58,5 +66,5 @@ const credentialsValiation = [
 export default {
   authenticate,
   getToken,
-  credentialsValiation,
+  credentialsValidation,
 };

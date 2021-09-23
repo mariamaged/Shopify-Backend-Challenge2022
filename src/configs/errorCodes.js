@@ -3,7 +3,7 @@ export default {
     GENERIC: {
       message: 'Internal Error',
       code: 100,
-      type: 'Genric Exception',
+      type: 'Generic Exception',
       status: 500,
     },
     ROUTE: {
@@ -42,6 +42,11 @@ export default {
       status: 500,
       type: 'Database Error',
     },
-
+    INVALID_PASSWORD: {
+      message: 'Please sign in with correct password.',
+      code: 105,
+      status: 403,
+      type: 'Authorization Error'
+    }
   },
 };
