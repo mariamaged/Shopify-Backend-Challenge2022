@@ -9,7 +9,6 @@ components:
       description: Access token is missing or invalid (expired).
       content:
         application/json; charset=utf-8:
-          schema:
           examples:
             "Unauthorized": 
               value:
@@ -23,5 +22,3 @@ components:
                       },
                     ],
                 }
-security:
-  - bearerAuth: []

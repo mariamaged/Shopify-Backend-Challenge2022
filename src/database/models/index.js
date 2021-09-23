@@ -8,6 +8,7 @@ const {
   database, username, password, schema,
 } = postgres;
 const sequelize = new Sequelize(database, username, password, postgres);
+db.sequelize = sequelize;
 
 const model = require(join(__dirname, 'Image.js'))(sequelize, Sequelize.DataTypes);
 db.Image = model;

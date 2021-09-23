@@ -8,7 +8,7 @@ const {
     secret,
     tolerance,
   },
-  errors: { UNAUTHORIZED, INVALID_PASSWORD },
+  errors: { UNAUTHORIZED, UNAUTHORIZED_TOKEN_NOT_FOUND, INVALID_PASSWORD },
 } = config;
 
 const app = initializeApp({
@@ -20,12 +20,19 @@ const app = initializeApp({
 
 const authenticate = async (req, res, next) => {
   try {
-    const { headers: { authentication } } = req;
-    const response = jwt.verify(authentication, secret, { clockTolerance: tolerance });
-    req.userId = response.sub;
+    let { headers: { authorization } } = req;
+    if (!authorization || authorization.split(' ').length < 2) {
+      return next(UNAUTHORIZED_TOKEN_NOT_FOUND);
+    }
+    authorization = authorization.split(' ')[1];
+    const response = jwt.verify(authorization, secret, { clockTolerance: tolerance });
+    req.userId = response;
     return next();
   } catch (error) {
-    return next(UNAUTHORIZED);
+    if (error.message === 'jwt malformed' || error.message === 'invalid signature') {
+      return next(UNAUTHORIZED);
+    }
+    return next(error);
   }
 };
 
@@ -39,17 +46,17 @@ const getToken = async (req, res, next) => {
   try {
     const authCredential = await signInWithEmailAndPassword(getAuth(app), email, password);
     const { uid } = authCredential.user;
-    const token = jwt.sign(uid, secret);
+    const token = jwt.sign({ userId: uid }, secret);
     return res.status(HttpStatus.OK).send({ token });
   }
   catch (error) {
-    if(error.code === 'auth/user-not-found') {
+    if (error.code === 'auth/user-not-found') {
       const authCredential = await createUserWithEmailAndPassword(getAuth(app), email, password);
       const { uid } = authCredential.user;
-      const token = jwt.sign(uid, secret);
+      const token = jwt.sign({ userId: uid }, secret);
       return res.status(HttpStatus.OK).send({ token });
     }
-    else if(error.code === 'auth/wrong-password') {
+    else if (error.code === 'auth/wrong-password') {
       return next(INVALID_PASSWORD);
     }
     return next(error);
