@@ -11,30 +11,6 @@ steps:
         - '--key=$_KEY'
         - '--project=$_KMS_PROJECT'
 
-    # Decrypt environment file used by the code
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-        - 'kms'
-        - 'decrypt'
-        - '--ciphertext-file=httpsConfig/server.cert'
-        - '--plaintext-file=server.cert'
-        - '--location=global'
-        - '--keyring=$_KEY_RING'
-        - '--key=$_KEY'
-        - '--project=$_KMS_PROJECT'
-
-      # Decrypt environment file used by the code
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-        - 'kms'
-        - 'decrypt'
-        - '--ciphertext-file=httpsConfig/server.key'
-        - '--plaintext-file=server.key'
-        - '--location=global'
-        - '--keyring=$_KEY_RING'
-        - '--key=$_KEY'
-        - '--project=$_KMS_PROJECT'
-
   # Build docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: 
