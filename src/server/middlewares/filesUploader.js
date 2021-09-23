@@ -40,9 +40,9 @@ var uploadFilesLocal = multer({
 }).array('files', 50);
 
 var uploadFilesGCS = multer({
-    storage: new MulterGoogleCloudStorage({ ...gcs, filename, maxRetries: 2 }),
+    storage: new MulterGoogleCloudStorage({ ...gcs, filename }),
     limits,
-}).array('files', 4);
+}).array('files', 50);
 
 const uploadFiles = (req, res, next) => {
     try {
