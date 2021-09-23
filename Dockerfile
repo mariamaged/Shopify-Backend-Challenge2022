@@ -27,7 +27,6 @@ RUN npm install
 # run linters, setup and tests
 FROM dependencies AS build
 COPY . .
-RUN  npm run lint
 RUN  npm run build
 
 #
