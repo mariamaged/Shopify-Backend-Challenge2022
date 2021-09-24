@@ -13,7 +13,7 @@ function postImages(images) {
 
 function getImages(userId, isPublic) {
   try {
-    if (isPublic === 'true') {
+    if (isPublic === 'true' || isPublic === true) {
       return imageRepository.getAll({ permission: 'public' });
     }
     else {
