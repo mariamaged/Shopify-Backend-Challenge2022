@@ -8,7 +8,6 @@ paths:
       tags:
         - Authentication
       requestBody:
-        schema:
         content:
           application/json; charset=utf-8:
             schema:

@@ -34,3 +34,52 @@ components:
                       },
                     ],
                 }
+    UserUnallowedOperation:
+      description: User was trying to perform an operation they are not allowed.
+      content:
+        application/json; charset=utf-8:
+          examples:
+            "Trying to delete another user's image": 
+              value: 
+                {
+                  "errors": [
+                      {
+                          "type": "Authorization Error",
+                          "code": 403,
+                          "message": "User with id alBKNPqhGHbgWE8fGxcNcz8XMYI3 is not allowed to delete image with name alBKNPqhGHbgWE8fGxcNcz8XMYI3-zootopia.png."
+                      }
+                  ]
+                }
+    ImageNotFound:
+      description: The image specified was not found.
+      content:
+        application/json; charset=utf-8:
+          examples:
+            "Response": 
+              value: 
+                {
+                    "errors": [
+                        {
+                            "type": "Not found Error",
+                            "code": 103,
+                            "message": "Image with name somename.jpg does not exist."
+                        }
+                    ]
+                }
+    DatabaseDeletionError:
+      description: Something happended while the database was trying to delete images data.
+      content:
+        application/json; charset=utf-8:
+          examples:
+            "Response": 
+              value: 
+                {
+                    "errors": [
+                        {
+                            "type": "Database Error",
+                            "code": 104,
+                            "message": "Image with name somename.png was not deleted."
+                        }
+                    ]
+                }
+

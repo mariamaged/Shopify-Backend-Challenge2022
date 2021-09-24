@@ -1,0 +1,35 @@
+paths:
+  /v1/images/selected:
+    delete:
+      description:
+        Delete a set of images uploaded by this user by their image names (as coming back from POST/GET responses)
+        inside an array of strings in the body 
+      tags:
+        - Deletion
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              type: array
+              items:
+                type: string
+            examples:
+              "Valid Request Body": 
+                value: 
+                  [
+                  "alBKNPqhGHbgWE8fGxcNcz8XMYI3-zootopia.png"
+                  ]
+      responses:
+        "204":
+          description: Images deleted successfully. No content is returned back.
+          content:
+            application/json; charset=utf-8:
+              schema:
+        "403":
+           $ref: "#/components/responses/UserUnallowedOperation"
+        "404":
+          $ref: "#/components/responses/ImageNotFound"
+        "500":
+          $ref: "#/components/responses/DatabaseDeletionError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"

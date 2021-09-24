@@ -1,0 +1,27 @@
+paths:
+  /v1/images/{imageName}:
+    delete:
+      description:
+        Delete an image uploaded by this user by its image name in the path parameter as coming back from POST/GET responses.
+      tags:
+        - Deletion
+      parameters:
+        - name: imageName
+          in: path
+          schema:
+            type: string
+            description:  Full name of image including extension (but not linkUrl).
+      responses:
+        "204":
+          description: Image deleted successfully. No content is returned back.
+          content:
+            application/json; charset=utf-8:
+              schema:
+        "403":
+           $ref: "#/components/responses/UserUnallowedOperation"
+        "404":
+          $ref: "#/components/responses/ImageNotFound"
+        "500":
+          $ref: "#/components/responses/DatabaseDeletionError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"

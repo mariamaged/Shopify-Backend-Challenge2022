@@ -29,18 +29,18 @@ async function deleteImages(userId, imagesId) {
   try {
     let deletedRows;
     if (imagesId && Array.isArray(imagesId)) {
-      imagesId.forEach(async (imageId) => {
+      for (const imageId of imagesId) {
         await helperService.IsAuthorizedUser(userId, imageId);
-      });
-      imagesId.forEach(async (imageId) => {
+      }
+      for (const imageId of imagesId) {
         const deleted = await imageRepository.deleteById(imageId);
         if (deleted !== 1) {
           const { message } = ROW_NOT_DELETED;
-          const modifiedMessage = message.replace('imageId', imageId);
+          const modifiedMessage = message.replace('{imageId}', imageId);
           ROW_NOT_DELETED.message = modifiedMessage;
           throw ROW_NOT_DELETED;
         }
-      });
+      }
       deletedRows = imagesId.length;
     } else {
       deletedRows = await imageRepository.deleteAll({ permission: 'private', userId });

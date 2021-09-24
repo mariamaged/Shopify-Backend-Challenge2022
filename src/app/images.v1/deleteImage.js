@@ -1,10 +1,17 @@
 import { imagesService } from '../../services';
-export default async function (req, res) {
+import path from 'path';
+export default async function (req, res, next) {
     try {
         const { userId, params: { imageName } } = req;
         await imagesService.deleteImages(userId, [imageName]);
-        return res.status(HttpStatus.NO_CONTENT).send();
+        if (config.nodeEnv == 'development') {
+            req.files = [{ path: path.join(`${__dirname}/../../upload/` + imageName) }];
+        }
+        else {
+            req.files = [{ filename: imageName }];
+        }
+        return next();
     } catch (error) {
-        throw error;
+        return next(error);
     }
 }
