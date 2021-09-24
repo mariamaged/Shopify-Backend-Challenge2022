@@ -11,6 +11,9 @@ const swaggerDefinition = {
   },
   host: `${config.host}:${config.port}`, // the host or url of the app
   basePath: '/', // the basepath of your endpoint
+  security: [{
+    bearerAuth: [],
+  }],
 };
 const options = {
   swaggerDefinition,

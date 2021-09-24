@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     userId: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     permission: {
@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
+    linkUrl: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, {
     sequelize,
     tableName: 'image',

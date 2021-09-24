@@ -1,7 +1,11 @@
 paths:
   /v1/images:
     post:
-      description: Add one or more images. Attach to them an optional description and keywords that will apply to all of them. The isPublic boolean field is required to determine permission for these images.
+      description:
+        Add one or more images. Attach to them an optional description and keywords that will apply to all of them. The isPublic string boolean field (either 'true' or 'false') is required to determine permission for these images.
+        This is a multipart/form-data request used for uploading the images. Photos take around a few seconds or minutes to upload so you will have to wait a bit.
+        Validation is done to the text attributes. For swagger the keywords array becomes one delimited string, while in postman it becomes an array of strings. Both cases are handled correctly in code.
+        However, only one description can be given.
       tags:
         - Addition
       requestBody:
@@ -25,20 +29,34 @@ paths:
                   items:
                     type: string
                 isPublic:
-                  type: boolean
-                  enum: [true, false]
+                  type: string
+                  enum: ["true", "false"]
                   example: true
       responses:
         "201":
           description:
           content:
             application/json; charset=utf-8:
-              schema:
+              examples:
+                "Valid response body":
+                  value:
+                    [
+                      {
+                        "linkUrl": "https://storage.googleapis.com/public-imagerepository2/1632448736037-zootopia.jpg",
+                        "permission": "public",
+                        "description": "zootopia",
+                        "keywords": ["nick", "judy"],
+                        "bytes": "1174496",
+                        "filename": "1632445846658-zootopia.jpg",
+                        "createdAt": "2021-09-24T01:10:47.039Z",
+                        "updatedAt": "2021-09-24T01:10:47.039Z",
+                      },
+                    ]
+                  description: The attributes include the imageUrls for the images uploaded which can be used to access the images on the browser. They are google cloud storage links.
         "400":
-          description: Bad request error messages.
+          description: Bad request validation error messages.
           content:
             application/json; charset=utf-8:
               schema:
-              examples:
         "401":
           $ref: "#/components/responses/UnauthorizedError"

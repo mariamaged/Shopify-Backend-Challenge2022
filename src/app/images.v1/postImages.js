@@ -1,6 +1,7 @@
 import { imagesService } from '../../services';
 import { ImageModel } from './models';
-export default async function (req, res) {
+import { filesUploader } from '../../server/middlewares';
+export default async function (req, res, next) {
   try {
     const { userId, files, body: { description, keywords, isPublic } } = req;
     const images = files.map((file) => new ImageModel(
@@ -9,6 +10,7 @@ export default async function (req, res) {
     const result = await imagesService.postImages(images);
     return res.status(HttpStatus.CREATED).send(result);
   } catch (error) {
-    return next(error);
+  //  filesUploader.deleteImages(req);
+    throw error;
   }
 }

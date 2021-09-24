@@ -6,22 +6,31 @@ components:
       bearerFormat: JWT
   responses:
     UnauthorizedError:
-      description: Access token is missing or invalid (expired).
+      description: Access token is missing or invalid (not verified/malformed).
       content:
         application/json; charset=utf-8:
-          schema:
           examples:
-            "Unauthorized": 
+            "Unauthorized (invalid)":
               value:
                 {
                   "errors":
                     [
                       {
                         "code": 401,
-                        type: "Authorization Error",
+                        "type": "Authorization Error",
                         "message": "Token is invalid. It might have expired.",
                       },
                     ],
                 }
-security:
-  - bearerAuth: []
+            "Unauthorized (missing)":
+              value:
+                {
+                  "errors":
+                    [
+                      {
+                        "code": 402,
+                        "type": "Authorization Error",
+                        "message": "Please pass a token in bearer authorization headers in order to authenticate this request.",
+                      },
+                    ],
+                }

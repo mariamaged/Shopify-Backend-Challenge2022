@@ -1,13 +1,17 @@
 import models from '../models';
 
 async function add(images) {
-  const t = await models.db.sequelize.transaction();
+  const t = await models.sequelize.transaction();
   try {
-    const result = await models.db.Image.bulkCreate(
+    let result = await models.Image.bulkCreate(
       images,
       { transaction: t },
     );
     await t.commit();
+    result = result.map((image) => {
+      const { dataValues: { id, userId, ...others } } = image;
+      return others;
+    })
     return result;
   } catch (error) {
     t.rollback();
@@ -17,9 +21,9 @@ async function add(images) {
 
 async function deleteAll(userId) {
   try {
-    const t = await models.db.sequelize.transaction();
+    const t = await models.sequelize.transaction();
     try {
-      const deletedRows = await models.db.Image.destroy(
+      const deletedRows = await models.Image.destroy(
         {
           where: { userId },
           transaction: t,
@@ -37,9 +41,9 @@ async function deleteAll(userId) {
 }
 
 async function deleteById(imageId) {
-  const t = await models.db.sequelize.transaction();
+  const t = await models.sequelize.transaction();
   try {
-    const deletedRows = await models.db.Image.destroy(
+    const deletedRows = await models.Image.destroy(
       {
         where: { id: imageId },
         transaction: t,
@@ -55,7 +59,7 @@ async function deleteById(imageId) {
 
 async function getById(imageId) {
   try {
-    const image = await models.db.Image.findOne(
+    const image = await models.Image.findOne(
       {
         where: { id: imageId },
       },
@@ -68,7 +72,7 @@ async function getById(imageId) {
 
 async function getAll(props) {
   try {
-    const images = await models.db.Image.findAll(
+    const images = await models.Image.findAll(
       {
         where: { ...props },
       },

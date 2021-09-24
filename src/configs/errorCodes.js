@@ -3,7 +3,7 @@ export default {
     GENERIC: {
       message: 'Internal Error',
       code: 100,
-      type: 'Genric Exception',
+      type: 'Generic Exception',
       status: 500,
     },
     ROUTE: {
@@ -24,6 +24,12 @@ export default {
       status: 401,
       type: 'Authorization Error',
     },
+    UNAUTHORIZED_TOKEN_NOT_FOUND: {
+      message: 'Please pass a token in bearer authorization headers in order to authenticate this request.',
+      code: 402,
+      status: 401,
+      type: 'Authorization Error'
+    },
     USER_OPERATION_ACCESS_DENIED: {
       message: 'User with id {userId} is not allowed to {operation} image with id {imageId}.',
       code: 403,
@@ -42,6 +48,11 @@ export default {
       status: 500,
       type: 'Database Error',
     },
-
+    INVALID_PASSWORD: {
+      message: 'Please sign in with correct password.',
+      code: 105,
+      status: 403,
+      type: 'Authorization Error'
+    }
   },
 };

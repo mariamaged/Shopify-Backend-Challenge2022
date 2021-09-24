@@ -1,3 +1,5 @@
+import path from 'path';
+
 export default
 {
   logLevel: 'info',
@@ -27,5 +29,11 @@ export default
   defaultCredentials: {
     email: process.env.EMAIL,
     password: process.env.PASSWORD,
+  },
+  gcs: {
+    projectId: process.env.GCS_PROJECT_ID,
+    bucket: process.env.GCS_BUCKET,
+    keyFilename: path.join(`./service.json`),
+    maxRetries: 4,
   }
 };

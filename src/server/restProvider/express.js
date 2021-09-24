@@ -2,8 +2,9 @@ import express from 'express';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import { version, name } from '../../../package.json';
-import { errorHandler, authenticator } from '../middlewares';
+import { errorHandler, authenticator, requestValidator } from '../middlewares';
 import swaggerSpec from '../swagger';
+import cors from 'cors';
 import imagesV1 from '../../app/images.v1';
 
 const healthcheckInfo = {
@@ -11,17 +12,22 @@ const healthcheckInfo = {
   version,
 };
 
+const corsOptions = {
+  origin: "http://localhost:8081",
+}
+
 export default function create() {
   const app = express();
   try {
     console.debug('app::initExpress', 'express app init');
     app.set('showStackError', true);
     console.debug('app::initExpress', 'express app init middleware');
+    app.use(cors(corsOptions));
     app.use(express.json());
     app.use(helmet());
 
     app.get('/healthcheck', (req, res) => res.send(healthcheckInfo));    
-    app.get('/token', authenticator.credentialsValiation, authenticator.getToken);
+    app.post('/token', authenticator.credentialsValidation, requestValidator, authenticator.getToken);
     app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     app.use(['/v1/images'], authenticator.authenticate);
 
