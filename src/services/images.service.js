@@ -52,6 +52,6 @@ async function deleteImages(userId, imagesId) {
 }
 export default {
   postImages,
-  deleteImages,
   getImages,
+  deleteImages,
 };
