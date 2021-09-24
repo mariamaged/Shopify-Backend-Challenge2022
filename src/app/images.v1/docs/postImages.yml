@@ -42,7 +42,7 @@ paths:
                   value:
                     [
                       {
-                        "linkUrl": "",
+                        "linkUrl": "https://storage.googleapis.com/public-imagerepository2/1632448736037-zootopia.jpg",
                         "permission": "public",
                         "description": "zootopia",
                         "keywords": ["nick", "judy"],

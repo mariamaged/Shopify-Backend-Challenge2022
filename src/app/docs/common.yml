@@ -23,13 +23,14 @@ components:
                     ],
                 }
             "Unauthorized (missing)":
-              {
-                "errors":
-                  [
-                    {
-                      "code": 402,
-                      "type": "Authorization Error",
-                      "message": "Please pass a token in bearer authorization headers in order to authenticate this request.",
-                    },
-                  ],
-              }
+              value:
+                {
+                  "errors":
+                    [
+                      {
+                        "code": 402,
+                        "type": "Authorization Error",
+                        "message": "Please pass a token in bearer authorization headers in order to authenticate this request.",
+                      },
+                    ],
+                }
