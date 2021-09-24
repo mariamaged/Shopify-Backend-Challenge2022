@@ -37,8 +37,8 @@ async function deleteImages(userId, imagesId) {
         if (deleted !== 1) {
           const { message } = ROW_NOT_DELETED;
           const modifiedMessage = message.replace('{imageId}', imageId);
-          ROW_NOT_DELETED.message = modifiedMessage;
-          throw ROW_NOT_DELETED;
+          const updatedError = { ...ROW_NOT_DELETED, message: modifiedMessage }
+          throw updatedError;
         }
       }
       deletedRows = imagesId.length;

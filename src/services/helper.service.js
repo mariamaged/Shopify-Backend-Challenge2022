@@ -8,16 +8,16 @@ async function IsAuthorizedUser(userId, imageId) {
     if (!imageDetails) {
       const { message } = IMAGE_DOES_NOT_EXIST;
       const modifiedMessage = message.replace('{imageId}', imageId);
-      IMAGE_DOES_NOT_EXIST.message = modifiedMessage;
-      throw IMAGE_DOES_NOT_EXIST;
+      const updatedError = { ...IMAGE_DOES_NOT_EXIST, message: modifiedMessage };
+      throw updatedError;
     }
     if (imageDetails.userId !== userId) {
       const { message } = USER_OPERATION_ACCESS_DENIED;
       const modifiedMessage = message.replace('{userId}', userId)
         .replace('{operation}', 'delete')
         .replace('{imageId}', imageId);
-      USER_OPERATION_ACCESS_DENIED.message = modifiedMessage;
-      throw USER_OPERATION_ACCESS_DENIED;
+      const updatedError = { ...USER_OPERATION_ACCESS_DENIED, message: modifiedMessage};
+      throw updatedError;
     }
   } catch (error) {
     throw error;

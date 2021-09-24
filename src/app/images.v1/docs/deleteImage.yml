@@ -11,6 +11,7 @@ paths:
           schema:
             type: string
             description:  Full name of image including extension (but not linkUrl).
+          example: alBKNPqhGHbgWE8fGxcNcz8XMYI3-zootopia.png
       responses:
         "204":
           description: Image deleted successfully. No content is returned back.
