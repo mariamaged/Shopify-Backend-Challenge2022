@@ -4,13 +4,14 @@ import { postImagesValidation, getImagesValidation } from './validation';
 import postImages from './postImages';
 import getImages from './getImages';
 import deleteAllImages from './deleteAllImages';
+import deleteImage from './deleteImage';
 const router = new AsyncRouter();
 
 router.post('/',
     filesUploader.uploadFiles, filesUploader.renamePrivateImages,
     postImagesValidation, requestValidator, postImages);
 router.get('/', getImagesValidation, requestValidator, getImages);
-router.delete('/', deleteAllImages);
-// router.delete('/:imageId');
+router.delete('/', filesUploader.deleteImages, deleteAllImages);
+router.delete('/:imageName', deleteImage);
 // router.get('/:imageId');
 export default router;
