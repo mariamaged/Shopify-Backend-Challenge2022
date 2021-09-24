@@ -30,9 +30,10 @@ const deleteImages = async (req, res, next) => {
         }
         else {
             for (const file of req.files) {
+                console.log(file);
                 gcstorage
                     .bucket(gcs.bucket)
-                    .file(file.filename)
+                    .file(file.filename || file.id)
                     .delete()
                     .then(() => {
                         console.log(`gs://${gcs.bucket}/${file.filename} deleted`);

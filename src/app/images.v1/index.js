@@ -13,5 +13,4 @@ router.post('/',
 router.get('/', getImagesValidation, requestValidator, getImages);
 router.delete('/', filesUploader.getAllPrivateImages, filesUploader.deleteImages, deleteAllImages);
 router.delete('/:imageName', deleteImage);
-// router.get('/:imageId');
 export default router;
