@@ -3,11 +3,15 @@ import models from '../models';
 async function add(images) {
   const t = await models.sequelize.transaction();
   try {
-    const result = await models.Image.bulkCreate(
+    let result = await models.Image.bulkCreate(
       images,
       { transaction: t },
     );
     await t.commit();
+    result = result.map((image) => {
+      const { dataValues: { id, userId, ...others } } = image;
+      return others;
+    })
     return result;
   } catch (error) {
     t.rollback();

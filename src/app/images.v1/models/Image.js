@@ -6,5 +6,6 @@ export default class Image {
         this.keywords = props.keywords;
         this.bytes = props.size;
         this.filename = props.filename;
+        this.linkUrl = props.linkUrl;
     }
 }

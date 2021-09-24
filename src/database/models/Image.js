@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
     },
+    linkUrl: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, {
     sequelize,
     tableName: 'image',
