@@ -11,6 +11,15 @@ function postImages(images) {
   }
 }
 
+function getImages(userId, isPublic) {
+  if (isPublic === 'true') {
+    return imageRepository.getAll({ permission: 'public' });
+  }
+  else {
+    return imageRepository.getAll({ permission: 'private', userId });
+  }
+}
+
 async function deleteImages(userId, imagesId) {
   try {
     let deletedRows;
@@ -39,4 +48,5 @@ async function deleteImages(userId, imagesId) {
 export default {
   postImages,
   deleteImages,
+  getImages,
 };

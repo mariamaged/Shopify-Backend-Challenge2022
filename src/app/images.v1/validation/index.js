@@ -1,5 +1,8 @@
-import { body } from 'express-validator';
-const { INVALID_STRING, EMPTY_ARRAY, INVALID_BOOLEAN_STRING, REQUIRED } = config;
+import { body, query } from 'express-validator';
+const {
+    INVALID_STRING, EMPTY_ARRAY, INVALID_BOOLEAN_STRING, REQUIRED,
+    INVALID_BOOLEAN,
+} = config;
 const postImagesValidation = [
     body('description')
         .isString()
@@ -23,6 +26,12 @@ const postImagesValidation = [
         .withMessage(INVALID_BOOLEAN_STRING)
         .exists({ checkNull: true })
         .withMessage(REQUIRED),
-]
+];
 
-export { postImagesValidation };
+const getImagesValidation = [
+    query('isPublic')
+        .isBoolean().withMessage(INVALID_BOOLEAN)
+        .optional()
+];
+
+export { postImagesValidation, getImagesValidation };

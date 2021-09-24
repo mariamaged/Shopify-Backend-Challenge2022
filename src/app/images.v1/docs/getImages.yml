@@ -1,0 +1,45 @@
+paths:
+  /v1/images:
+    get:
+      description:
+        Get all images that are either (public) or (private and belonging to the user identified from the authorization token).
+        This is done by specifying the query parameter called isPublic to be either the value 'true' or 'false'.
+        It is optional and the default for it is true to get public images.
+        The route returns the same data that the post route returns with the images' linkUrls to be viewed as well as metadata for each image.
+      tags:
+        - Retrieval
+      parameters:
+        - name: isPublic
+          in: query
+          schema:
+            type: boolean
+            description:  Get all public images posted by all users or private images posted by this user.
+          example: true
+      responses:
+        "200":
+          description:
+          content:
+            application/json; charset=utf-8:
+              examples:
+                "Valid response body":
+                  value:
+                    [
+                      {
+                        "linkUrl": "https://storage.googleapis.com/public-imagerepository2/1632448736037-zootopia.jpg",
+                        "permission": "public",
+                        "description": "zootopia",
+                        "keywords": ["nick", "judy"],
+                        "bytes": "1174496",
+                        "filename": "1632445846658-zootopia.jpg",
+                        "createdAt": "2021-09-24T01:10:47.039Z",
+                        "updatedAt": "2021-09-24T01:10:47.039Z",
+                      },
+                    ]
+                  description: The attributes include the imageUrls for the images uploaded which can be used to access the images on the browser. They are google cloud storage links.
+        "400":
+          description: Bad request validation error messages.
+          content:
+            application/json; charset=utf-8:
+              schema:
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"

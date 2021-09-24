@@ -1,7 +1,7 @@
 import { imagesService } from '../../services';
 import { ImageModel } from './models';
 import { filesUploader } from '../../server/middlewares';
-export default async function (req, res, next) {
+export default async function (req, res) {
   try {
     const { userId, files, body: { description, keywords, isPublic } } = req;
     const images = files.map((file) => new ImageModel(

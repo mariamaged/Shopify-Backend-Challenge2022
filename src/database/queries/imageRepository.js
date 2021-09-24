@@ -57,27 +57,15 @@ async function deleteById(imageId) {
   }
 }
 
-async function getById(imageId) {
-  try {
-    const image = await models.Image.findOne(
-      {
-        where: { id: imageId },
-      },
-    );
-    return image;
-  } catch (error) {
-    throw error;
-  }
-}
-
 async function getAll(props) {
   try {
-    const images = await models.Image.findAll(
+    const result = await models.Image.findAll(
       {
-        where: { ...props },
+        where: props,
+        attributes: { exclude: ['id', 'userId'] },
       },
     );
-    return images;
+    return result;
   } catch (error) {
     throw error;
   }
@@ -87,6 +75,5 @@ export default {
   add,
   deleteAll,
   deleteById,
-  getById,
   getAll,
 };
