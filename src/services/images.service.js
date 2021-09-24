@@ -11,6 +11,20 @@ function postImages(images) {
   }
 }
 
+function getImages(userId, isPublic) {
+  try {
+    if (isPublic === 'true' || isPublic === true) {
+      return imageRepository.getAll({ permission: 'public' });
+    }
+    else {
+      return imageRepository.getAll({ permission: 'private', userId });
+    }
+  }
+  catch (error) {
+    throw error;
+  }
+}
+
 async function deleteImages(userId, imagesId) {
   try {
     let deletedRows;
@@ -29,14 +43,15 @@ async function deleteImages(userId, imagesId) {
       });
       deletedRows = imagesId.length;
     } else {
-      deletedRows = await imageRepository.deleteAll(userId);
+      deletedRows = await imageRepository.deleteAll({ permission: 'private', userId });
     }
-    return { deletedRows };
+    return deletedRows;
   } catch (error) {
     throw error;
   }
 }
 export default {
   postImages,
+  getImages,
   deleteImages,
 };

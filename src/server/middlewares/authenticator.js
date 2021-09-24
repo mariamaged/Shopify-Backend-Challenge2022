@@ -26,7 +26,8 @@ const authenticate = async (req, res, next) => {
     }
     authorization = authorization.split(' ')[1];
     const response = jwt.verify(authorization, secret, { clockTolerance: tolerance });
-    req.userId = response;
+    req.userId = Object.prototype.toString.call(response) === '[object Object]' ?
+     response.userId : response;
     return next();
   } catch (error) {
     if (error.message === 'jwt malformed' || error.message === 'invalid signature') {
