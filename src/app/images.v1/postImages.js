@@ -10,7 +10,7 @@ export default async function (req, res) {
     const result = await imagesService.postImages(images);
     return res.status(HttpStatus.CREATED).send(result);
   } catch (error) {
-  //  filesUploader.deleteImages(req);
+    filesUploader.deleteImages(req);
     throw error;
   }
 }

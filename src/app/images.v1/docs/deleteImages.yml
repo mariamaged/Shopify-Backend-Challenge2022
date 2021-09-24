@@ -1,0 +1,24 @@
+paths:
+  /v1/images:
+    delete:
+      description:
+        Delete all private images belonging to a user.
+      tags:
+        - Deletion
+      responses:
+        "200":
+          description:
+          content:
+            application/json; charset=utf-8:
+              schema:
+                type: object
+                properties:
+                  deletedRows:
+                    type: number
+              examples:
+                "Valid Reponse of number of private images that were found and deleted":
+                  value: {
+                    "deletedRows": 5
+                  }
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"

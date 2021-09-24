@@ -43,9 +43,9 @@ async function deleteImages(userId, imagesId) {
       });
       deletedRows = imagesId.length;
     } else {
-      deletedRows = await imageRepository.deleteAll(userId);
+      deletedRows = await imageRepository.deleteAll({ permission: 'private', userId });
     }
-    return { deletedRows };
+    return deletedRows;
   } catch (error) {
     throw error;
   }
