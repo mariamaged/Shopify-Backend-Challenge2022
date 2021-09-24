@@ -4,6 +4,7 @@ import multer from 'multer';
 import MulterGoogleCloudStorage from 'multer-cloud-storage';
 import { Storage } from '@google-cloud/storage';
 const { gcs } = config;
+const LINK_URL_BASE = `https://storage.googleapis.com/${gcs.bucket}/`;
 const gcstorage = new Storage(gcs);
 
 const deleteImages = (req) => {
@@ -91,6 +92,8 @@ const renamePrivateImages = async (req, res, next) => {
                     console.log(
                         `gs://${gcs.bucket}/${oldName} renamed to gs://${gcs.bucket}/${newName}.`
                     );
+                    file.filename = newName;
+                    file.linkUrl = LINK_URL_BASE + newName;
                 }
             }
         }
