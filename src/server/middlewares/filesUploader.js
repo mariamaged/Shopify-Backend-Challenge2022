@@ -5,6 +5,7 @@ import MulterGoogleCloudStorage from 'multer-cloud-storage';
 import { Storage } from '@google-cloud/storage';
 const { gcs } = config;
 const LINK_URL_BASE = `https://storage.googleapis.com/${gcs.bucket}/`;
+const UPLOADS_BASE = `${__dirname}/../../upload`;
 const gcstorage = new Storage(gcs);
 
 const deleteImages = async (req, res, next) => {
@@ -14,25 +15,38 @@ const deleteImages = async (req, res, next) => {
                 fs.unlink(file.path, (err) => {
                     if (err) {
                         console.log('Delete files error', err);
+                        if (next) {
+                            return next(err);
+                        }
                     }
                     else {
                         console.log(`Successfully deleted ${file.path}.`);
+                        if (next) {
+                            return next();
+                        }
                     }
                 });
             });
         }
         else {
             for (const file of req.files) {
-                await gcstorage
+                gcstorage
                     .bucket(gcs.bucket)
                     .file(file.filename)
-                    .delete();
-
-                console.log(`gs://${gcs.bucket}/${file.filename} deleted`);
+                    .delete()
+                    .then(() => {
+                        console.log(`gs://${gcs.bucket}/${file.filename} deleted`);
+                        if (next) {
+                            return next();
+                        }
+                    })
+                    .catch((err) => {
+                        console.log('deleteImages error', err);
+                        if (next) {
+                            return next(err);
+                        }
+                    });
             }
-        }
-        if (next) {
-            return next();
         }
     }
     catch (error) {
@@ -88,6 +102,40 @@ const renamePrivateImages = async (req, res, next) => {
     }
 }
 
+const getAllPrivateImages = async (req, res, next) => {
+    try {
+        if (config.nodeEnv === 'development') {
+            const dir = await fs.promises.opendir(path.join(UPLOADS_BASE));
+            req.files = [];
+            for await (const dirent of dir) {
+                const name = dirent.name;
+                if (name.startsWith(req.userId)) {
+                    req.files.push({ path: path.join(UPLOADS_BASE + '/' + name)});
+                };
+            }
+            return next();
+        }
+        else {
+            gcstorage
+                .bucket(gcs.bucket)
+                .getFiles({ prefix: req.userId },
+                    function (err, files) {
+                        if (err) {
+                            console.log('getAllPrivateImages', err);
+                            return next(err);
+                        }
+                        else {
+                            req.files = files;
+                            return next();
+                        }
+                    });
+        }
+    }
+    catch (error) {
+        return next(error);
+    }
+}
+
 const filename = (req, file, callback) => {
     const match = ["image/png", "image/jpeg"];
 
@@ -103,7 +151,7 @@ const limits = { fileSize: 100000000 };
 
 var storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, path.join(`${__dirname}/../../upload`));
+        callback(null, path.join(UPLOADS_BASE));
     },
     filename,
 });
@@ -132,4 +180,4 @@ const uploadFiles = (req, res, next) => {
     }
 }
 
-export default { uploadFiles, renamePrivateImages, deleteImages };
+export default { uploadFiles, renamePrivateImages, deleteImages, getAllPrivateImages };
