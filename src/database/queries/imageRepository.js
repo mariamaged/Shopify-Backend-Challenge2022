@@ -41,7 +41,7 @@ async function deleteById(imageId) {
   try {
     const deletedRows = await models.Image.destroy(
       {
-        where: { id: imageId },
+        where: { filename: imageId },
         transaction: t,
       },
     );
@@ -67,9 +67,23 @@ async function getAll(props) {
   }
 }
 
+async function getById(imageId) {
+  try {
+    const result = await models.Image.findOne(
+      {
+        where: { filename: imageId },
+      },
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export default {
   add,
   deleteAll,
   deleteById,
   getAll,
+  getById,
 };
