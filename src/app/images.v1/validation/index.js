@@ -9,10 +9,12 @@ const postImagesValidation = [
         .if(body('keywords').isArray())
         .isLength({ min: 1 })
         .withMessage(EMPTY_ARRAY)
+        .optional(),
+    body('keywords')
         .if(body('keywords').not().isArray())
         .isString()
         .withMessage(INVALID_STRING)
-        .customSanitizer((str) => str.split(','))
+        .customSanitizer((str) => { return str.split(',') })
         .optional(),
     body('isPublic')
         .isString()
