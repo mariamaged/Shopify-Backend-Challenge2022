@@ -12,11 +12,16 @@ function postImages(images) {
 }
 
 function getImages(userId, isPublic) {
-  if (isPublic === 'true') {
-    return imageRepository.getAll({ permission: 'public' });
+  try {
+    if (isPublic === 'true') {
+      return imageRepository.getAll({ permission: 'public' });
+    }
+    else {
+      return imageRepository.getAll({ permission: 'private', userId });
+    }
   }
-  else {
-    return imageRepository.getAll({ permission: 'private', userId });
+  catch (error) {
+    throw error;
   }
 }
 
